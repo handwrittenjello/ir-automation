@@ -1,0 +1,11 @@
+meta {
+  name: Launch Netflix
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://{{roku_ip}}:{{roku_port}}/launch/12
+  body: none
+  auth: none
+}

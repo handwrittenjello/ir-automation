@@ -1,0 +1,11 @@
+meta {
+  name: Device Info
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://{{roku_ip}}:{{roku_port}}/query/device-info
+  body: none
+  auth: none
+}
