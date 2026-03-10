@@ -15,7 +15,14 @@ import sys
 import time
 import serial
 
-PORT = sys.argv[1] if len(sys.argv) > 1 else 'COM3'
+try:
+    import config
+    _default_port = config.FLIPPER_PORT
+except ImportError:
+    import platform
+    _default_port = 'COM3' if platform.system() == 'Windows' else '/dev/ttyACM0'
+
+PORT = sys.argv[1] if len(sys.argv) > 1 else _default_port
 BAUD = 115200
 IR_FILE = sys.argv[2] if len(sys.argv) > 2 else '/ext/infrared/Westinghouse.ir'
 
