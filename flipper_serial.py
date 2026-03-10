@@ -21,7 +21,7 @@ import serial
 
 logger = logging.getLogger(__name__)
 
-_WAKE_DELAY   = 0.3   # seconds after sending bare newline
+_WAKE_DELAY   = 1.0   # seconds after sending bare newline
 _READ_TIMEOUT = 2.0   # seconds of silence before stop reading
 _TX_WAIT      = 1.0   # seconds to wait after sending ir tx command
 
