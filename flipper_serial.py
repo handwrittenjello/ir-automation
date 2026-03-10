@@ -41,10 +41,16 @@ def _read_until_quiet(ser: serial.Serial, timeout: float = _READ_TIMEOUT) -> str
 
 
 def _wake_cli(ser: serial.Serial) -> None:
-    """Send a bare newline to ensure the Flipper CLI is responsive."""
+    """Send a bare newline and wait until the Flipper CLI prompt appears."""
     ser.reset_input_buffer()
-    ser.write(b'\r\n')
-    time.sleep(_WAKE_DELAY)
+    deadline = time.time() + 5.0
+    while time.time() < deadline:
+        ser.write(b'\r\n')
+        time.sleep(0.3)
+        response = ser.read(ser.in_waiting or 1).decode('utf-8', errors='replace')
+        if '>:' in response:
+            ser.reset_input_buffer()
+            return
     ser.reset_input_buffer()
 
 
