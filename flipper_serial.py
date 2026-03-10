@@ -15,6 +15,7 @@ Supported .ir file signal types:
 
 import logging
 import time
+from typing import Optional
 
 import serial
 
@@ -55,7 +56,7 @@ def _send_cmd(ser: serial.Serial, cmd: str, wait: float = _READ_TIMEOUT) -> str:
 
 # ── .ir file parsing ──────────────────────────────────────────────────────────
 
-def _parse_ir_file(content: str, signal_name: str | None) -> dict:
+def _parse_ir_file(content: str, signal_name: Optional[str]) -> dict:
     """
     Parse the first matching signal from .ir file text content.
 
@@ -73,7 +74,7 @@ def _parse_ir_file(content: str, signal_name: str | None) -> dict:
     # Everything before the first 'name:' line (Size:, Filetype:, Version:,
     # the storage-read echo, etc.) is preamble and must be ignored.
     blocks = []
-    current: dict[str, str] | None = None
+    current = None  # type: Optional[dict]
     for raw_line in content.splitlines():
         line = raw_line.strip()
         if not line or line.startswith('#'):
@@ -155,7 +156,7 @@ def send_ir_command(
     ir_file_path: str,
     port: str,
     baud: int,
-    signal_name: str | None = None,
+    signal_name: Optional[str] = None,
 ) -> bool:
     """
     Transmit an IR signal stored in a .ir file on the Flipper Zero SD card.

@@ -30,6 +30,7 @@ import sys
 import threading
 import time
 from collections import deque
+from typing import Optional
 
 import requests
 from prompt_toolkit import Application
@@ -78,7 +79,7 @@ def btn(label: str, active: bool) -> str:
 
 # ── Remote art ────────────────────────────────────────────────────────────────
 
-def render(active: str | None) -> str:
+def render(active: Optional[str]) -> str:
     """Build the full remote display as an ANSI string."""
 
     def b(name: str, label: str) -> str:
@@ -141,7 +142,7 @@ def render(active: str | None) -> str:
 
 class State:
     def __init__(self):
-        self.active:      str | None = None
+        self.active      = None  # type: Optional[str]
         self.flash_until: float      = 0.0
         self.status:      str        = f'  {CY}●{R}  {WH}{ROKU_URL}{R}  —  ready'
         self.log:         deque      = deque(maxlen=LOG_MAX)
